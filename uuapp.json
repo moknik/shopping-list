@@ -1,5 +1,5 @@
 {
-  "product": "tb_shopping",
+  "product": "uu_shopping_maing01",
   "version": "0.1.0",
   "license": "License Commercial",
   "description": {
@@ -12,6 +12,6 @@
       "appDeploymentUri": null
     }
   },
-  "tb_shopping-list_project-hi": {},
-  "tb_shopping-list_project-server": {}
+  "uu_shopping_maing01-hi": {},
+  "uu_shopping_maing01-server": {}
 }
