@@ -12,6 +12,32 @@ import importLsi from "../lsi/import-lsi.js";
 import ItemList from "../core/detail/itemList.js";
 import Title from "../core/detail/title.js";
 import UserList from "../core/detail/userlist.js";
+import { useState } from "react";
+
+const TESTING_SHOPPING_LIST = {
+  id: Utils.String.generateId(),
+  name: "Fruit List",
+  archived: false,
+  owner: true ,
+  ownerName: "John Connor",
+ItemList: [{ name: "apple", amount: 5, id: Utils.String.generateId(), resolved: false },
+{ name: "banana", amount: 3, id: Utils.String.generateId(), resolved: false },
+{ name: "orange", amount: 7, id: Utils.String.generateId(), resolved: true },
+{ name: "pear", amount: 2, id: Utils.String.generateId(), resolved: false },
+{ name: "pineapple", amount: 1, id: Utils.String.generateId(), resolved: true }],
+
+userList: [1,2,3]
+
+}
+const TESTING_USER_LIST = [
+  { name: "John", id: 1},
+  { name: "Peter", id: 2},
+  { name: "Mary", id: 3},
+  { name: "Lucy", id: 4 },
+  { name: "Tom", id: 5},
+  { name: "Bob", id: 6}]
+
+
 
 //@@viewOff:imports
 
@@ -22,9 +48,9 @@ import UserList from "../core/detail/userlist.js";
 const Css = {
   main: () =>
     Config.Css.css({
-    padding: 32,
-    margin: "auto"
-
+      padding: 32,
+      margin: "auto",
+      backgroundColor: "#2194f3"
 
 
     }),
@@ -59,21 +85,24 @@ let Home = createVisualComponent({
 
     //@@viewOn:render
     const attrs = Utils.VisualComponent.getAttrs(props, Css.main());
+    const [shoppingList, setShoppingList] = useState(TESTING_SHOPPING_LIST);
+    const [userList, setUserList] = useState(TESTING_USER_LIST);
     return (
       <div {...attrs}>
-      <Title />
-      <div style={{
-        display: "flex",
-        flexDirection: "row",
-        flexWrap: "wrap",
-        justifyContent: "space-between",
-        backgroundColor: "#f5f5f5",
-    }}>
-      <ItemList />
+         <Title shoppingList={shoppingList}  />
+        <div style={{
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          justifyContent: "space-between",
+          backgroundColor: "#f5f5f5",
+          borderRadius: "0 0 50px 50px",
+        }}>
+           <ItemList shoppingList={shoppingList}/>
 
 
-<UserList />
-      </div>
+          <UserList userList={userList} shoppingList={shoppingList} />
+        </div>
 
 
       </div>
