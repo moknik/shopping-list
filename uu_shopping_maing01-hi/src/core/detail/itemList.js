@@ -29,20 +29,11 @@ function itemList(props) {
         padding: "32px",
         margin: "auto",
         width: 700,
-
-
-
       }),
     button: () =>
       Config.Css.css({
         margin: 5,
-
-
-
-
       }),
-
-
 
   };
 
@@ -136,7 +127,7 @@ function itemList(props) {
 
   return (
     <Uu5Elements.Block {...attrs}
-      header="Items" headerType="title" actionList={[{ icon: "mdi-plus", onClick: () => setModalOpen(true) }]}>
+      header="List of items to buy" headerType="title" actionList={[{ icon: "mdi-plus", onClick: () => setModalOpen(true) }]}>
 
       <Uu5Elements.Button {...attrsButton} size="l" icon="mdi-circle-outline" onClick={() => filterItems("All")}>All</Uu5Elements.Button>
       <Uu5Elements.Button {...attrsButton} size="l" icon="mdi-check-circle-outline" onClick={() => filterItems("Resolved")}>Resolved</Uu5Elements.Button>

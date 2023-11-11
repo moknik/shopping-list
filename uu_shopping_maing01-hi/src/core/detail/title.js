@@ -5,6 +5,7 @@ import Config from "../config/config.js";
 
 function Title(props) {
   const [modalOpen, setModalOpen] = useState(false);
+  const [modalDeleteOpen, setModalDeleteOpen] = useState(false);
   const [TitleList, setTitleList] = useState(props.shoppingList);
 
 
@@ -54,7 +55,7 @@ function Title(props) {
 
         {!TitleList.owner ? <h2>Owner: {TitleList.ownerName}</h2>
           : null}
-        {TitleList.owner ? <Uu5Elements.Button size="l" icon="uugds-delete" onClick={() => handleDelete(TitleList.id)}>Delete</Uu5Elements.Button>
+        {TitleList.owner ? <Uu5Elements.Button size="l" icon="uugds-delete" onClick={() => setModalDeleteOpen(true)}>Delete</Uu5Elements.Button>
 
           : null}
 
@@ -82,6 +83,20 @@ function Title(props) {
         </Uu5Elements.Modal>
       </Uu5Forms.Form.Provider>
 
+      <Uu5Elements.Modal open={modalDeleteOpen} onClose={() => setModalDeleteOpen(false)} header="Delete list"
+          footer={
+            <div>
+
+            </div>
+          }
+        >
+          <Uu5Elements.Block>Are you sure you want to delete list <b>{TitleList.name}</b>?
+          <p>This action cannot be undone. </p>
+          </Uu5Elements.Block>
+          <Uu5Elements.Button className={Config.Css.css({margin: 5})} size="l" icon="uugds-delete" onClick={() => handleDelete(TitleList.id)}>Delete</Uu5Elements.Button>
+          <Uu5Elements.Button className={Config.Css.css({margin: 5})} size="l" icon="uugds-cancel" onClick={() => setModalDeleteOpen(false)}>Cancel</Uu5Elements.Button>
+
+        </Uu5Elements.Modal>
 
 
 
