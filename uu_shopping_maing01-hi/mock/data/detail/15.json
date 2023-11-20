@@ -1,0 +1,20 @@
+[
+    {
+        "id": "15",
+        "name": "Moto list",
+        "owner": "9957-2635-6563",
+        "ownerName": "John Doe",
+        "user": [
+            "9957-2503-7732-0000"
+        ],
+        "archived": false,
+        "itemList": [
+            {
+                "name": "Honda",
+                "amount": 5,
+                "id": 1,
+                "resolved": false
+            }
+        ]
+    }
+]

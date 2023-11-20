@@ -1,0 +1,18 @@
+[
+    {
+        "id": "18",
+        "name": "Dress list",
+        "owner": "9957-2503-7732-0000",
+        "ownerName": "Tomáš Blažek",
+        "user": [],
+        "archived": true,
+        "itemList": [
+            {
+                "name": "T-shirt",
+                "amount": 5,
+                "id": 1,
+                "resolved": false
+            }
+        ]
+    }
+]

@@ -3,19 +3,25 @@ import Uu5Elements from "uu5g05-elements";
 import Uu5Forms from "uu5g05-forms";
 import Item from "./item.js";
 import Config from "../config/config.js";
+import { useEffect } from "react";
 
-const INITIAL_ITEM_LIST = [
+/*const INITIAL_ITEM_LIST = [
   { name: "apple", amount: 5, id: Utils.String.generateId(), resolved: false },
-  { name: "banana", amount: 3, id: Utils.String.generateId(), resolved: false },
-  { name: "orange", amount: 7, id: Utils.String.generateId(), resolved: true },
-  { name: "pear", amount: 2, id: Utils.String.generateId(), resolved: false },
-  { name: "pineapple", amount: 1, id: Utils.String.generateId(), resolved: true }
-]
+  { name: "banana", amount: 3, id: Utils.String.generateId(), resolved: false }
+
+]*/
 
 
-function itemList(props) {
+function ItemList(props) {
 
-  const [itemList, setitemList] = useState(INITIAL_ITEM_LIST);
+  const [ItemList, setItemList] = useState([]);
+  //const [itemList, setItemList] = useState(props.itemList.itemList || []);
+  useEffect(() => {
+    // Update the state when props.itemList.itemList changes
+    setItemList(props.itemList.itemList || []);
+  }, [props.itemList.itemList]);
+
+  //console.log("props.itemList.itemList", props.itemList);
 
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -42,26 +48,26 @@ function itemList(props) {
 
 
   function handlerDelete(id) {
-    setitemList(([...actualitemList]) => {
-      const index = actualitemList.findIndex((item) => item.id === id);
-      actualitemList.splice(index, 1);
-      console.log(id, actualitemList[index].name, "deleted")
-      return actualitemList;
+    setItemList(([...actualItemList]) => {
+      const index = actualItemList.findIndex((item) => item.id === id);
+      actualItemList.splice(index, 1);
+      console.log(id, actualItemList[index].name, "deleted")
+      return actualItemList;
     });
   }
   function handlerResolved(id) {
     const data = id;
 
     //save new data
-    setitemList(previtemList => {
-      const index = previtemList.findIndex(item => item.id === id);
-      const updateditemList = [...previtemList];
-      updateditemList[index] = {
-        ...updateditemList[index],
-        resolved: !updateditemList[index].resolved
+    setItemList(prevItemList => {
+      const index = prevItemList.findIndex(item => item.id === id);
+      const updatedItemList = [...prevItemList];
+      updatedItemList[index] = {
+        ...updatedItemList[index],
+        resolved: !updatedItemList[index].resolved
       };
-      console.log(data, updateditemList[index].name, "resolved:", updateditemList[index].resolved);
-      return updateditemList;
+      console.log(data, updatedItemList[index].name, "resolved:", updatedItemList[index].resolved);
+      return updatedItemList;
     });
   }
   function handleSubmit(e) {
@@ -69,8 +75,8 @@ function itemList(props) {
     console.log(data);
 
     //save new data
-    setitemList(previtemList => [
-      ...previtemList,
+    setItemList(prevItemList => [
+      ...prevItemList,
       { ...data, id: Utils.String.generateId(), resolved: false }
     ]);
 
@@ -79,55 +85,58 @@ function itemList(props) {
 
   function handlerUpAmount(id) {
     //save new data
-    setitemList(previtemList => {
-      const index = previtemList.findIndex(item => item.id === id);
-      const updateditemList = [...previtemList];
-      updateditemList[index] = {
-        ...updateditemList[index],
-        amount: updateditemList[index].amount + 1
+    setItemList(prevItemList => {
+      const index = prevItemList.findIndex(item => item.id === id);
+      const updatedItemList = [...prevItemList];
+      updatedItemList[index] = {
+        ...updatedItemList[index],
+        amount: updatedItemList[index].amount + 1
       };
-      console.log(id, updateditemList[index].name, updateditemList[index].amount)
-      return updateditemList;
+      console.log(id, updatedItemList[index].name, updatedItemList[index].amount)
+      return updatedItemList;
     });
   }
 
   function handlerDownAmount(id) {
     //save new data
-    setitemList(previtemList => {
-      const index = previtemList.findIndex(item => item.id === id);
-      const updateditemList = [...previtemList];
-      if (updateditemList[index].amount === 1) handlerDelete(id);
+    setItemList(prevItemList => {
+      const index = prevItemList.findIndex(item => item.id === id);
+      const updatedItemList = [...prevItemList];
+      if (updatedItemList[index].amount === 1) handlerDelete(id);
       else {
-        updateditemList[index] = {
-          ...updateditemList[index],
-          amount: updateditemList[index].amount - 1
+        updatedItemList[index] = {
+          ...updatedItemList[index],
+          amount: updatedItemList[index].amount - 1
         };
       }
-      console.log(id, updateditemList[index].name, updateditemList[index].amount)
-      return updateditemList;
+      console.log(id, updatedItemList[index].name, updatedItemList[index].amount)
+      return updatedItemList;
     });
   }
 
   function filterItems(filter) {
-    setitemList(itemList => {
-      const updateditemList = [...INITIAL_ITEM_LIST]
+    setItemList(ItemList => {
+      const updatedItemList = [...props.itemList.itemList]
       switch (filter) {
         case "All":
-          return updateditemList;
+          return updatedItemList;
         case "Resolved":
-          return updateditemList.filter((item) => item.resolved);
+          return updatedItemList.filter((item) => item.resolved);
         case "Unresolved":
-          return updateditemList.filter((item) => !item.resolved);
+          return updatedItemList.filter((item) => !item.resolved);
         default:
-          return updateditemList;
-
+          return updatedItemList;
       }
     });
   }
 
   return (
     <Uu5Elements.Block {...attrs}
-      header="List of items to buy" headerType="title" actionList={[{ icon: "mdi-plus", onClick: () => setModalOpen(true) }]}>
+      header="List of items to buy" headerType="title"
+      actionList={
+        !props.itemList.archived
+          ? [{ icon: "mdi-plus", onClick: () => setModalOpen(true) }]
+          : []}>
 
       <Uu5Elements.Button {...attrsButton} size="l" icon="mdi-circle-outline" onClick={() => filterItems("All")}>All</Uu5Elements.Button>
       <Uu5Elements.Button {...attrsButton} size="l" icon="mdi-check-circle-outline" onClick={() => filterItems("Resolved")}>Resolved</Uu5Elements.Button>
@@ -136,8 +145,8 @@ function itemList(props) {
       <Uu5Elements.Grid >
 
 
-        {itemList.map((item) => (
-          <Item key={item.id}  {...item}
+        {ItemList.map((item) => (
+          <Item key={item.id}  {...item} archived={props.itemList.archived}
             onDelete={() => handlerDelete(item.id)}
             onChecked={() => handlerResolved(item.id)}
             upAmount={() => handlerUpAmount(item.id)}
@@ -153,17 +162,17 @@ function itemList(props) {
         <Uu5Elements.Modal open={modalOpen} onClose={() => setModalOpen(false)} header="Create item"
           footer={
             <div>
-              <Uu5Forms.CancelButton />
-              <Uu5Forms.SubmitButton />
+              <Uu5Forms.CancelButton className={Config.Css.css({ margin: 5 })} onClick={() => setModalOpen(false)} />
+              <Uu5Forms.SubmitButton className={Config.Css.css({ margin: 5 })} />
             </div>
 
           }
         >
-          <Uu5Forms.FormText label="Name" name="name" required />
-          <Uu5Forms.FormNumber label="Amount" name="amount" initialValue={1} required min={1} />
 
-
-
+          <Uu5Forms.Form.View gridLayout={{ xs: "name, amount", s: "name amount" }}>
+            <Uu5Forms.FormText label="Name" name="name" required />
+            <Uu5Forms.FormNumber label="Amount" name="amount" initialValue={1} required min={1} />
+          </Uu5Forms.Form.View>
 
         </Uu5Elements.Modal>
       </Uu5Forms.Form.Provider>
@@ -171,5 +180,5 @@ function itemList(props) {
   );
 };
 
-export default itemList;
+export default ItemList;
 

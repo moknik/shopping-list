@@ -2,7 +2,7 @@
 import { Utils, createVisualComponent, useSession, Lsi } from "uu5g05";
 import { withRoute } from "uu_plus4u5g02-app";
 import Config from "./config/config.js";
-import { ShoppingListProvider } from "../core/home/shoppingListProvider.js";
+import { DetailProvider } from "../core/detail/detailProvider.js";
 
 //@@viewOff:imports
 
@@ -15,15 +15,15 @@ const Css = {
     Config.Css.css({
       padding: 32,
       margin: "auto",
-      backgroundColor: "#2194f3"
     }),
 };
+
 //@@viewOff:css
 
 //@@viewOn:helpers
 //@@viewOff:helpers
 
-let Home = createVisualComponent({
+let Detail = createVisualComponent({
   //@@viewOn:statics
   uu5Tag: Config.TAG + "Home",
   //@@viewOff:statics
@@ -49,16 +49,16 @@ let Home = createVisualComponent({
     return (
 
       <div>
-        <ShoppingListProvider />
+        <DetailProvider />
       </div>
     );
     //@@viewOff:render
   },
 });
 
-Home = withRoute(Home, { authenticated: true });
+Detail = withRoute(Detail, { authenticated: true });
 
 //@@viewOn:exports
-export { Home };
-export default Home;
+export { Detail };
+export default Detail;
 //@@viewOff:exports

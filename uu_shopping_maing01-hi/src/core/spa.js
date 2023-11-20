@@ -6,16 +6,23 @@ import Plus4U5App from "uu_plus4u5g02-app";
 
 import Config from "./config/config.js";
 import Home from "../routes/home.js";
+import DetailList from "./detail/detailList.js";
+import Detail from "../routes/detail.js";
 //@@viewOff:imports
 
 //@@viewOn:constants
 const About = Utils.Component.lazy(() => import("../routes/about.js"));
 const InitAppWorkspace = Utils.Component.lazy(() => import("../routes/init-app-workspace.js"));
 const ControlPanel = Utils.Component.lazy(() => import("../routes/control-panel.js"));
+//const ShoppingList = Utils.Component.lazy(() => import("../routes/shoppingList.js"));
+
 
 const ROUTE_MAP = {
   "": { redirect: "home" },
   home: (props) => <Home {...props} />,
+  //shoppingList: (props) => <ShoppingList {...props} />,
+  detail: (props) => <Detail {...props} />,
+  detailList: (props) => <DetailList {...props} />,
   about: (props) => <About {...props} />,
   "sys/uuAppWorkspace/initUve": (props) => <InitAppWorkspace {...props} />,
   controlPanel: (props) => <ControlPanel {...props} />,

@@ -1,0 +1,45 @@
+[
+    {
+        "id": "14",
+        "name": "Vegetable list2",
+        "owner": "9957-2635-6563",
+        "ownerName": "John Doe",
+        "user": [
+            "9957-2503-7732-0003",
+            "9957-2635-6563"
+        ],
+        "archived": false,
+        "itemList": [
+            {
+                "name": "carrot",
+                "amount": 5,
+                "id": 1,
+                "resolved": false
+            },
+            {
+                "name": "potato",
+                "amount": 3,
+                "id": 2,
+                "resolved": false
+            },
+            {
+                "name": "tomato",
+                "amount": 7,
+                "id": 3,
+                "resolved": true
+            },
+            {
+                "name": "cucumber",
+                "amount": 2,
+                "id": 4,
+                "resolved": false
+            },
+            {
+                "name": "onion",
+                "amount": 1,
+                "id": 5,
+                "resolved": true
+            }
+        ]
+    }
+]

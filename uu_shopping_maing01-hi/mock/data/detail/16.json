@@ -1,0 +1,42 @@
+[
+    {
+        "id": "16",
+        "name": "Drogery list",
+        "owner": "9957-2503-7732-0000",
+        "ownerName": "Tomáš Blažek",
+        "user": [],
+        "archived": false,
+        "itemList": [
+            {
+                "name": "Soap",
+                "amount": 5,
+                "id": 1,
+                "resolved": false
+            },
+            {
+                "name": "Shampoo",
+                "amount": 3,
+                "id": 2,
+                "resolved": false
+            },
+            {
+                "name": "Toothpaste",
+                "amount": 7,
+                "id": 3,
+                "resolved": true
+            },
+            {
+                "name": "Toothbrush",
+                "amount": 2,
+                "id": 4,
+                "resolved": false
+            },
+            {
+                "name": "Razor",
+                "amount": 1,
+                "id": 5,
+                "resolved": true
+            }
+        ]
+    }
+]

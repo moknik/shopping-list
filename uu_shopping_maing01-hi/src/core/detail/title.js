@@ -6,18 +6,12 @@ import Config from "../config/config.js";
 function Title(props) {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalDeleteOpen, setModalDeleteOpen] = useState(false);
-  const [TitleList, setTitleList] = useState(props.shoppingList);
-
-
-  const actionList = TitleList.owner
-    ? [{ icon: "uugds-richtext-toolbar", onClick: () => setModalOpen(true) }]
-    : [];
-
-
+  const [TitleList, setTitleList] = useState(props.data);
+  const [deleteOpen, setDeleteOpen] = useState(false);
 
   function handleSubmit(e) {
     const data = e.data.value;
-    console.log(data);
+    //console.log(data);
 
     //save  data
     setTitleList((prevTitleListOld) => {
@@ -32,6 +26,7 @@ function Title(props) {
     setModalOpen(false);
   }
 
+
   function handleDelete(id) {
     //save  data
     console.log(id, "deleted", TitleList.name)
@@ -44,7 +39,12 @@ function Title(props) {
   function handleLeave(id) {
     //save  data
     console.log(id, "leaved", TitleList.name)
+
   }
+
+  const actionList = props.authenticated
+    ? [{ icon: "uugds-richtext-toolbar", onClick: () => setModalOpen(true) }]
+    : [];
 
   return (
     <Uu5Elements.Block actionList={actionList}
@@ -53,28 +53,47 @@ function Title(props) {
 
         <h1>{TitleList.name}</h1>
 
-        {!TitleList.owner ? <h2>Owner: {TitleList.ownerName}</h2>
+        {!props.authenticated ? <h2>Owner: {TitleList.ownerName}</h2>
           : null}
-        {TitleList.owner ? <Uu5Elements.Button size="l" icon="uugds-delete" onClick={() => setModalDeleteOpen(true)}>Delete</Uu5Elements.Button>
+        {props.authenticated ? <Uu5Elements.Button size="l" icon="uugds-delete" onClick={() => setDeleteOpen(true)}>Delete</Uu5Elements.Button>
 
-          : null}
-
-        {TitleList.owner ? <Uu5Elements.Button size="l" icon="uugdsstencil-uiaction-archive" onClick={() => handleArchive(TitleList.id)}>Archive</Uu5Elements.Button>
           : null}
 
-        {!TitleList.owner ? <Uu5Elements.Button size="l" icon="uugds-log-out" onClick={() => handleLeave(TitleList.id)}>Leave list</Uu5Elements.Button>
+        {props.authenticated && !TitleList.archived ? <Uu5Elements.Button size="l" icon="uugdsstencil-uiaction-archive" onClick={() => handleArchive(TitleList.id)}>Archive</Uu5Elements.Button>
+          : null}
 
-: null}
+        {!props.authenticated ? <Uu5Elements.Button size="l" icon="uugds-log-out" onClick={() => handleLeave(TitleList.id)}>Leave list</Uu5Elements.Button> : null}
 
+        {props.authenticated && TitleList.archived ? <Uu5Elements.Button top size="l" icon="uugds-up" onClick={() => handleArchive(TitleList.id)}>Activate</Uu5Elements.Button> : null}
 
       </Uu5Elements.Grid>
+
+      {props.authenticated ?
+        <Uu5Elements.Dialog
+          open={deleteOpen}
+          onClose={() => setDeleteOpen(false)}
+          header="Are you sure you want to delete this shopping list?"
+          info={TitleList.name}
+          actionList={[{
+            children: "Delete",
+            icon: "mdi-delete",
+            onClick: () => handleDelete(TitleList.id),
+            significance: "highlighted",
+            colorScheme: "negative"
+          },
+          {
+            children: "Cancel",
+            onClick: () => setDeleteOpen(false),
+
+          }]} />
+        : null}
 
       <Uu5Forms.Form.Provider key={modalOpen} onSubmit={handleSubmit}>
         <Uu5Elements.Modal open={modalOpen} onClose={() => setModalOpen(false)} header="Rename list"
           footer={
             <div>
-              <Uu5Forms.CancelButton />
-              <Uu5Forms.SubmitButton />
+              <Uu5Forms.CancelButton className={Config.Css.css({ margin: 5 })} onClick={() => setModalOpen(false)} />
+              <Uu5Forms.SubmitButton className={Config.Css.css({ margin: 5 })} />
             </div>
           }
         >
@@ -83,26 +102,7 @@ function Title(props) {
         </Uu5Elements.Modal>
       </Uu5Forms.Form.Provider>
 
-      <Uu5Elements.Modal open={modalDeleteOpen} onClose={() => setModalDeleteOpen(false)} header="Delete list"
-          footer={
-            <div>
-
-            </div>
-          }
-        >
-          <Uu5Elements.Block>Are you sure you want to delete list <b>{TitleList.name}</b>?
-          <p>This action cannot be undone. </p>
-          </Uu5Elements.Block>
-          <Uu5Elements.Button className={Config.Css.css({margin: 5})} size="l" icon="uugds-delete" onClick={() => handleDelete(TitleList.id)}>Delete</Uu5Elements.Button>
-          <Uu5Elements.Button className={Config.Css.css({margin: 5})} size="l" icon="uugds-cancel" onClick={() => setModalDeleteOpen(false)}>Cancel</Uu5Elements.Button>
-
-        </Uu5Elements.Modal>
-
-
-
     </Uu5Elements.Block>
-
-
   );
 };
 

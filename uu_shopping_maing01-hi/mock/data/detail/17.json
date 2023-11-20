@@ -1,0 +1,192 @@
+[
+    {
+        "id": "17",
+        "name": "Pet list",
+        "owner": "9957-2503-7732-0000",
+        "ownerName": "Tomáš Blažek",
+        "user": [],
+        "archived": false,
+        "itemList": [
+            {
+                "name": "Dog food",
+                "amount": 5,
+                "id": 1,
+                "resolved": false
+            },
+            {
+                "name": "Cat food",
+                "amount": 3,
+                "id": 2,
+                "resolved": false
+            },
+            {
+                "name": "Fish food",
+                "amount": 7,
+                "id": 3,
+                "resolved": true
+            },
+            {
+                "name": "Bird food",
+                "amount": 2,
+                "id": 4,
+                "resolved": false
+            },
+            {
+                "name": "Hamster food",
+                "amount": 1,
+                "id": 5,
+                "resolved": true
+            },
+            {
+                "name": "Rabbit food",
+                "amount": 1,
+                "id": 6,
+                "resolved": true
+            },
+            {
+                "name": "Turtle food",
+                "amount": 1,
+                "id": 7,
+                "resolved": true
+            },
+            {
+                "name": "Snake food",
+                "amount": 1,
+                "id": 8,
+                "resolved": true
+            },
+            {
+                "name": "Spider food",
+                "amount": 1,
+                "id": 9,
+                "resolved": true
+            },
+            {
+                "name": "Scorpion food",
+                "amount": 1,
+                "id": 10,
+                "resolved": true
+            },
+            {
+                "name": "Lizard food",
+                "amount": 1,
+                "id": 11,
+                "resolved": true
+            },
+            {
+                "name": "Frog food",
+                "amount": 1,
+                "id": 12,
+                "resolved": true
+            },
+            {
+                "name": "Horse food",
+                "amount": 1,
+                "id": 13,
+                "resolved": true
+            },
+            {
+                "name": "Cow food",
+                "amount": 1,
+                "id": 14,
+                "resolved": true
+            },
+            {
+                "name": "Pig food",
+                "amount": 1,
+                "id": 15,
+                "resolved": true
+            },
+            {
+                "name": "Chicken food",
+                "amount": 1,
+                "id": 16,
+                "resolved": true
+            },
+            {
+                "name": "Duck food",
+                "amount": 1,
+                "id": 17,
+                "resolved": true
+            },
+            {
+                "name": "Goose food",
+                "amount": 1,
+                "id": 18,
+                "resolved": true
+            },
+            {
+                "name": "Sheep food",
+                "amount": 1,
+                "id": 19,
+                "resolved": true
+            },
+            {
+                "name": "Goat food",
+                "amount": 1,
+                "id": 20,
+                "resolved": true
+            },
+            {
+                "name": "Donkey food",
+                "amount": 1,
+                "id": 21,
+                "resolved": true
+            },
+            {
+                "name": "Mule food",
+                "amount": 1,
+                "id": 22,
+                "resolved": true
+            },
+            {
+                "name": "Pigeon food",
+                "amount": 1,
+                "id": 23,
+                "resolved": true
+            },
+            {
+                "name": "Parrot food",
+                "amount": 1,
+                "id": 24,
+                "resolved": true
+            },
+            {
+                "name": "Penguin food",
+                "amount": 1,
+                "id": 25,
+                "resolved": true
+            },
+            {
+                "name": "Ostrich food",
+                "amount": 1,
+                "id": 26,
+                "resolved": true
+            },
+            {
+                "name": "Eagle food",
+                "amount": 1,
+                "id": 27,
+                "resolved": true
+            },
+            {
+                "name": "Falcon food",
+                "amount": 1,
+                "id": 28,
+                "resolved": true
+            },
+            {
+                "name": "Hawk food",
+                "amount": 1,
+                "id": 29,
+                "resolved": true
+            },
+            {
+                "name": "Owl food",
+                "amount": 1,
+                "id": 30,
+                "resolved": false
+            }
+        ]
+    }
+]

@@ -1,0 +1,44 @@
+[
+    {
+        "id": "12",
+        "name": "Fruit list2",
+        "owner": "9957-2503-7732-0000",
+        "ownerName": "Tomáš Blažek",
+        "user": [
+            "9957-2503-7732-003"
+        ],
+        "archived": false,
+        "itemList": [
+            {
+                "name": "apple",
+                "amount": 5,
+                "id": 1,
+                "resolved": false
+            },
+            {
+                "name": "pear",
+                "amount": 2,
+                "id": 4,
+                "resolved": false
+            },
+            {
+                "name": "pineapple",
+                "amount": 1,
+                "id": 5,
+                "resolved": true
+            },
+            {
+                "name": "banana",
+                "amount": 3,
+                "id": 2,
+                "resolved": false
+            },
+            {
+                "name": "orange",
+                "amount": 4,
+                "id": 3,
+                "resolved": true
+            }
+        ]
+    }
+]

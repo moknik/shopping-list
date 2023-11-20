@@ -41,7 +41,7 @@ async function save(values) {
     redirectPath = Environment.appBaseUri;
   }
   window.location.replace(redirectPath);
-  return new Promise(() => {}); // don't resolve - we'll keep form disabled until reload happens
+  return new Promise(() => { }); // don't resolve - we'll keep form disabled until reload happens
 }
 //@@viewOff:helpers
 

@@ -7,6 +7,7 @@ import Plus4U5 from "uu_plus4u5g02";
 //     "callsBaseUri": "https://uuapp-dev.plus4u.net/vnd-app/awid"
 //   }
 
+
 const Calls = {
   async call(method, url, dtoIn, clientOptions) {
     const response = await Plus4U5.Utils.AppClient[method](url, dtoIn, clientOptions);
@@ -18,6 +19,35 @@ const Calls = {
   //   const commandUri = Calls.getCommandUri("loadDemoContent");
   //   return Calls.call("get", commandUri, dtoIn);
   // },
+  loadShoppingDetail(dtoIn) {
+    //console.log("call detail", dtoIn);
+    const commandUri = Calls.getCommandUri("detail/" + dtoIn);
+    return Calls.call("get", commandUri);
+  },
+  loadShoppingList(dtoIn) {
+    const commandUri = Calls.getCommandUri("shoppingList/list");
+    return Calls.call("get", commandUri);
+  },
+  createShoppingList(dtoIn) {
+    console.log("call create", dtoIn);
+    const commandUri = Calls.getCommandUri("shoppingList/create");
+    return Calls.call("post", commandUri);
+  },
+  deleteShoppingList(dtoIn) {
+    console.log("call delete", dtoIn);
+    const commandUri = Calls.getCommandUri("shoppingList/delete");
+    return Calls.call("post", commandUri);
+  },
+  archiveShoppingList(dtoIn) {
+    console.log("call archive", dtoIn);
+    const commandUri = Calls.getCommandUri("shoppingList/archive");
+    return Calls.call("post", commandUri);
+  },
+  leaveShoppingList(dtoIn) {
+    console.log("call leave", dtoIn);
+    const commandUri = Calls.getCommandUri("shoppingList/leave");
+    return Calls.call("post", commandUri);
+  },
 
   loadIdentityProfiles() {
     const commandUri = Calls.getCommandUri("sys/uuAppWorkspace/initUve");
