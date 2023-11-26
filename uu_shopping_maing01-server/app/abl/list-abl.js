@@ -186,13 +186,13 @@ class ListAbl {
       Warnings.Create.UnsupportedKeys.code,
       Errors.Create.InvalidDtoIn
     );
+    return {...dtoIn, uuAppErrorMap }; //DÚ 3 - jednotlivé end-pointy (uuCmd) budou ve výstupních datech vracet přijatá vstupní data a informace o chybách
 
     dtoIn.archive = false;
     dtoIn.owner = uuIdentity;
     dtoIn.awid = awid;
     const list = await this.dao.create({ dtoIn });
     const dtoOut = { ...list, uuAppErrorMap };
-    return {...dtoIn, uuAppErrorMap }; //DÚ 3 - jednotlivé end-pointy (uuCmd) budou ve výstupních datech vracet přijatá vstupní data a informace o chybách
     return dtoOut;
   }
 
