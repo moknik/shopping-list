@@ -5,7 +5,12 @@
       "realization": "MongoDB",
       "schemaMap": {
         "shoppingMain": {
-          "realization": "dao/ShoppingMainMongo"
+          "realization": "dao/ShoppingMainMongo",
+          "maxNoi": 1
+        },
+        "list": {
+          "realization": "dao/ListMongo",
+          "maxNoi": 1024
         }
       }
     }
