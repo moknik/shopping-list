@@ -1,9 +1,10 @@
-import { createVisualComponent, Utils } from "uu5g05";
+import { createVisualComponent, useBackground, Utils, Lsi, useSession } from "uu5g05";
 import config from "../../config/config";
 import Uu5TilesElements from "uu5tilesg02-elements";
 import Uu5Elements from "uu5g05-elements";
 import { useState } from "react";
 import Config from "../config/config.js";
+import importLsi from "../../lsi/import-lsi.js";
 
 const ListTile = createVisualComponent({
 
@@ -38,15 +39,14 @@ const ListTile = createVisualComponent({
     const [open, setOpen] = useState(false);
     const attrs = Utils.VisualComponent.getAttrs(props, Css.main());
     const owner = (() => {
-      const session = UU5.Environment.getSession().getIdentity().uuIdentity;
+      const session = useSession().identity.uuIdentity;
       const owner = props.data.data.owner;
       const isAuthorized = session === owner;
-
       return { isAuthorized };
     })();
 
     const user = (() => {
-      const session = UU5.Environment.getSession().getIdentity().uuIdentity;
+      const session = useSession().identity.uuIdentity;
       let isAuthorized = false;
       for (const user of props.data.data.user) {
         if (user.includes(session)) {
@@ -63,6 +63,9 @@ const ListTile = createVisualComponent({
     props.data.handlerMap.archive;
     props.data.handlerMap.leave;
 
+    // console.log("propsTile", props)
+    const background = useBackground();
+
     //@@viewOn:render
     if (owner.isAuthorized || user.isAuthorized)
       return (
@@ -75,6 +78,7 @@ const ListTile = createVisualComponent({
               borderRadius: 10,
               borderColor: "#cccccc",
             })}>
+
             <Uu5Elements.Link href={"detail?id=" + props.data.data.id}>
               <Uu5TilesElements.Tile header={tileName}
                 onClick={() => setOpen(true)}
@@ -83,11 +87,11 @@ const ListTile = createVisualComponent({
                   padding: 10,
                   margin: 10,
                   borderRadius: "10px",
-                  backgroundColor: props.data.data.archived ? " #e6e6e6" : (owner.isAuthorized ? "#c3e2d0" : "inherit"),
+                  backgroundColor: props.data.data.archived ? (background === "dark" ? "#9c9c9c" : "#e6e6e6") : (owner.isAuthorized && background === "light" ? "#c3e2d0" : (owner.isAuthorized && background === "dark" ? "#819489" : "inherit")),
                 }
                 )}
               >
-                {!(props.data.data.id == 45) ?
+                {!(props.data.data.id == 45) ? //TODO: remove this when the bug is fixed
                   <Uu5Elements.Block>
                     <ul>
 
@@ -99,37 +103,52 @@ const ListTile = createVisualComponent({
                   </Uu5Elements.Block>
                   : null}
 
-
               </Uu5TilesElements.Tile>
             </Uu5Elements.Link>
-            {owner.isAuthorized ? <Uu5Elements.Button {...attrsButton} size="l" icon="uugds-delete" onClick={() => setDeleteOpen(true)}>Delete</Uu5Elements.Button>
+            {owner.isAuthorized ?
+              <Uu5Elements.Button {...attrsButton}
+                size="l" icon="uugds-delete" onClick={() => setDeleteOpen(true)}>
+                <Lsi import={importLsi} path={["ShoppingList", "Delete"]} />
+              </Uu5Elements.Button>
 
               : null}
-            {!owner.isAuthorized ? <Uu5Elements.Button {...attrsButton} size="l" icon="uugds-log-out" onClick={() => props.data.handlerMap.leave()}>Leave list</Uu5Elements.Button> : null}
+            {!owner.isAuthorized ?
+              <Uu5Elements.Button {...attrsButton} size="l"
+                icon="uugds-log-out" onClick={() => props.data.handlerMap.leave()}>
+                <Lsi import={importLsi} path={["ShoppingList", "Leave"]} />
+              </Uu5Elements.Button> : null}
 
             {owner.isAuthorized && !props.data.data.archived ?
-              <Uu5Elements.Button {...attrsButton} size="l" icon="uugdsstencil-uiaction-archive" onClick={() => props.data.handlerMap.archive(true)}>Archive</Uu5Elements.Button>
+              <Uu5Elements.Button {...attrsButton}
+                size="l" icon="uugdsstencil-uiaction-archive"
+                onClick={() => props.data.handlerMap.archive(true)}>
+                <Lsi import={importLsi} path={["ShoppingList", "Archive"]} />
+              </Uu5Elements.Button>
               : null}
             {owner.isAuthorized && props.data.data.archived ?
-              <Uu5Elements.Button top {...attrsButton} size="l" icon="uugds-up" onClick={() => props.data.handlerMap.archive(false)}>Activate</Uu5Elements.Button>
+              <Uu5Elements.Button top
+                {...attrsButton} size="l" icon="uugds-up" onClick={() => props.data.handlerMap.archive(false)}>
+                <Lsi import={importLsi} path={["ShoppingList", "Activate"]} />
+              </Uu5Elements.Button>
               : null}
           </Uu5Elements.Block>
 
           {owner.isAuthorized ?
             <Uu5Elements.Dialog
+              style={{ backgroundColor: background === "dark" ? "#9c9c9c" : "#f5f5f5" }}
               open={deleteOpen}
               onClose={() => setDeleteOpen(false)}
-              header="Are you sure you want to delete this shopping list? This action cannot be undone. "
+              header={<Lsi import={importLsi} path={["ShoppingList", "DeleteConfirm"]} />}
               info={props.data.data.name}
               actionList={[{
-                children: "Delete",
+                children: <Lsi import={importLsi} path={["ShoppingList", "Delete"]} />,
                 icon: "mdi-delete",
                 onClick: () => props.data.handlerMap.delete(),
                 significance: "highlighted",
                 colorScheme: "negative"
               },
               {
-                children: "Cancel",
+                children: <Lsi import={importLsi} path={["ShoppingList", "Cancel"]} />,
                 onClick: () => setDeleteOpen(false),
 
               }]} />
@@ -137,7 +156,6 @@ const ListTile = createVisualComponent({
         </>
       );
     else return null;
-
 
     //@@viewOff:render
   },

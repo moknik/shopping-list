@@ -19,10 +19,7 @@ const DetailProvider = createComponent({
 
   render(props) {
     const urlParams = new URLSearchParams(window.location.search);
-
-    // Get a specific parameter
     const param = urlParams.get('id');
-    //console.log(param);s
     const dataDetail = useDataList({
       handlerMap: {
         load: () => Calls.loadShoppingDetail(param),
@@ -30,7 +27,7 @@ const DetailProvider = createComponent({
       },
       itemHandlerMap: {
         delete: Calls.deleteShoppingList,
-        archive: Calls.archiveShoppingList,
+        archive: (isArchived) => Calls.archiveShoppingList(isArchived),
         leave: Calls.leaveShoppingList,
       },
     })
@@ -52,17 +49,13 @@ const DetailProvider = createComponent({
 
         break;
       default:
-        result = <DetailList data={dataDetail.data[0].data} onCreate={dataDetail.handlerMap.create} />;
+        result = <DetailList data={dataDetail.data[0]} onCreate={dataDetail.handlerMap.create} />;
 
         break;
     }
 
-
     //@@viewOn:render
     return result;
-
-
-
     //@@viewOff:render
   },
 });

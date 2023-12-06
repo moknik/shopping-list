@@ -1,6 +1,8 @@
 import Uu5Elements from "uu5g05-elements";
 import Uu5Forms from "uu5g05-forms";
 import Config from "../config/config.js";
+import importLsi from "../../lsi/import-lsi.js";
+import { Lsi } from "uu5g05";
 
 function Item(props) {
   //console.log("propsItem", props);
@@ -22,9 +24,7 @@ function Item(props) {
             borderRadius: "25px",
             fontSize: "1.5rem",
             fontType: "bold",
-            color: "black",
             margin: 10,
-
           })}>{props.name}</div>
 
         {!props.archived ?
@@ -40,7 +40,7 @@ function Item(props) {
             display: "inline-block",
             fontSize: "1.5rem",
             margin: 10,
-          })} >Amount: {props.amount}</div>
+          })} ><Lsi import={importLsi} path={["ListDetail", "Amount"]} /> : {props.amount}</div>
 
         {!props.archived ?
           <Uu5Elements.Button icon="uugds-plus" onClick={props.upAmount}
@@ -60,9 +60,9 @@ function Item(props) {
               marginLeft: 20,
             })}
           >
-
-            <Uu5Forms.Checkbox label="Resolved" box={false} value={props.resolved} borderRadius="expressive" />
-
+            <Uu5Forms.Checkbox
+              label={<Lsi import={importLsi} path={["ListDetail", "Resolved"]} />}
+              box={false} value={props.resolved} borderRadius="expressive" />
           </Uu5Elements.Box>
           :
           <Uu5Elements.Box className={Config.Css.css({

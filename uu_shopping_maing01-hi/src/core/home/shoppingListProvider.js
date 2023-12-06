@@ -30,7 +30,6 @@ const ShoppingListProvider = createComponent({
       },
     })
     //console.log("datalist", dataList);
-
     let result;
     switch (dataList.state) {
       case "pendingNoData":

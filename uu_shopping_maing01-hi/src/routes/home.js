@@ -1,8 +1,9 @@
 //@@viewOn:imports
-import { Utils, createVisualComponent, useSession, Lsi } from "uu5g05";
+import { Utils, createVisualComponent, useSession, Lsi, useAppBackground, BackgroundProvider} from "uu5g05";
 import { withRoute } from "uu_plus4u5g02-app";
 import Config from "./config/config.js";
 import { ShoppingListProvider } from "../core/home/shoppingListProvider.js";
+import Uu5Elements from "uu5g05-elements";
 
 //@@viewOff:imports
 
@@ -37,6 +38,8 @@ let Home = createVisualComponent({
   //@@viewOff:defaultProps
 
   render(props) {
+    const [background, setBackground] = useAppBackground();
+    const darkMode = background === "dark";
     //@@viewOn:private
     const { identity } = useSession();
     //@@viewOff:private
@@ -48,9 +51,29 @@ let Home = createVisualComponent({
     const attrs = Utils.VisualComponent.getAttrs(props, Css.main());
     return (
 
+
       <div>
-        <ShoppingListProvider />
+        <Uu5Elements.Toggle
+        className={Config.Css.css(
+          {
+            margin: 20,
+
+          })}
+        value={!darkMode}
+        onChange={() => setBackground({
+          backgroundColor: darkMode ? null : Uu5Elements.UuGds.ColorPalette.getValue(["building", "dark", "main"])
+        })}
+        iconOff="uugdsstencil-weather-moon"
+        iconOn="uugdsstencil-weather-sun"
+      />
+      <Uu5Elements.LanguageSelector languageList={["cs", "en"]} />
+
+
+
+        <ShoppingListProvider dark={darkMode} />
+
       </div>
+
     );
     //@@viewOff:render
   },

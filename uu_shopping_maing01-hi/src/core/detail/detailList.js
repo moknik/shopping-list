@@ -1,5 +1,5 @@
 //@@viewOn:imports
-import { Utils, createVisualComponent, useSession } from "uu5g05";
+import { Utils, createVisualComponent, useSession, useBackground, lsi } from "uu5g05";
 import Uu5Elements from "uu5g05-elements";
 import { withRoute } from "uu_plus4u5g02-app";
 import Config from "../../routes/config/config.js";
@@ -7,7 +7,6 @@ import ItemList from "./itemList.js";
 import Title from "./title.js";
 import UserList from "./userlist.js";
 import { useState } from "react";
-
 
 const TESTING_USER_LIST = [
   { name: "Tomáš Blažek", id: "9957-2503-7732-0000" },
@@ -17,11 +16,6 @@ const TESTING_USER_LIST = [
   { name: "Tom", id: 5 },
   { name: "Bob", id: 6 }]
 
-//@@viewOff:imports
-
-//@@viewOn:constants
-//@@viewOff:constants
-
 //@@viewOn:css
 const Css = {
   main: () =>
@@ -30,10 +24,8 @@ const Css = {
       margin: "auto",
     }),
 };
-//@@viewOff:css
 
-//@@viewOn:helpers
-//@@viewOff:helpers
+//@@viewOff:css
 
 let DetailList = createVisualComponent({
   //@@viewOn:statics
@@ -50,12 +42,10 @@ let DetailList = createVisualComponent({
 
   render(props) {
     //@@viewOn:private
-    const urlParams = new URLSearchParams(window.location.search);
 
-    const { identity } = useSession();
-    const param1 = urlParams.get('id');
+    const background = useBackground();
     //console.log(param1);
-    //console.log("props", props);
+    console.log("propsDetal", props);
     //@@viewOff:private
 
     //@@viewOn:interface
@@ -66,17 +56,18 @@ let DetailList = createVisualComponent({
     const [userList, setUserList] = useState(TESTING_USER_LIST);
 
     const owner = (() => {
-      const session = UU5.Environment.getSession().getIdentity().uuIdentity;
-      const owner = props.data.owner;
+      const session = useSession().identity.uuIdentity;
+      const owner = props.data.data.owner;
       const isAuthorized = session === owner;
 
       return { isAuthorized };
     })();
 
+
     const user = (() => {
-      const session = UU5.Environment.getSession().getIdentity().uuIdentity;
+      const session = useSession().identity.uuIdentity;
       let isAuthorized = false;
-      for (const user of props.data.user) {
+      for (const user of props.data.data.user) {
         if (user.includes(session)) {
           isAuthorized = true;
           break;
@@ -99,13 +90,11 @@ let DetailList = createVisualComponent({
             flexDirection: "row",
             flexWrap: "wrap",
             justifyContent: "space-between",
-            backgroundColor: "#f5f5f5",
+            backgroundColor: background === "dark" ? "#9c9c9c" : "#f5f5f5",
             borderRadius: "0 0 50px 50px",
           }}>
-            <ItemList itemList={props.data} />
-
-
-            <UserList userList={userList} shoppingList={props.data} authenticated={owner.isAuthorized} />
+            <ItemList itemList={props.data.data} />
+            <UserList userList={userList} shoppingList={props.data.data} authenticated={owner.isAuthorized} />
           </div>
         </div>
 
@@ -115,7 +104,6 @@ let DetailList = createVisualComponent({
         <Uu5Elements.Alert header="Forbidden access" priority="error" />
         <Uu5Elements.Link href="home" >
           <Uu5Elements.Button size="xl" icon="uugds-home" onClick={(true)} />
-
         </Uu5Elements.Link>
       </>
     )

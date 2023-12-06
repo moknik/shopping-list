@@ -1,16 +1,12 @@
-import { Utils, useState } from "uu5g05";
+import { Utils, useState, useBackground, Lsi } from "uu5g05";
 import Uu5Elements from "uu5g05-elements";
 import Uu5Forms from "uu5g05-forms";
 import Item from "./item.js";
 import Config from "../config/config.js";
 import { useEffect } from "react";
-
-/*const INITIAL_ITEM_LIST = [
-  { name: "apple", amount: 5, id: Utils.String.generateId(), resolved: false },
-  { name: "banana", amount: 3, id: Utils.String.generateId(), resolved: false }
-
-]*/
-
+import importLsi from "../../lsi/import-lsi.js";
+import React from "react";
+import Calls from "../../calls.js";
 
 function ItemList(props) {
 
@@ -21,9 +17,10 @@ function ItemList(props) {
     setItemList(props.itemList.itemList || []);
   }, [props.itemList.itemList]);
 
-  //console.log("props.itemList.itemList", props.itemList);
+  // console.log("props.itemList.itemList", props.itemList);
 
   const [modalOpen, setModalOpen] = useState(false);
+  var background = useBackground();
 
   const Css = {
     main: () =>
@@ -31,7 +28,7 @@ function ItemList(props) {
 
         display: "inline-block",
         maxWidth: "100%",
-        backgroundColor: "#f5f5f5",
+        backgroundColor: background === "dark" ? "#9c9c9c" : "#f5f5f5",
         padding: "32px",
         margin: "auto",
         width: 700,
@@ -46,18 +43,16 @@ function ItemList(props) {
   const attrs = Utils.VisualComponent.getAttrs(props, Css.main());
   const attrsButton = Utils.VisualComponent.getAttrs(props, Css.button());
 
-
   function handlerDelete(id) {
     setItemList(([...actualItemList]) => {
       const index = actualItemList.findIndex((item) => item.id === id);
       actualItemList.splice(index, 1);
       console.log(id, actualItemList[index].name, "deleted")
+      Calls.deleteItem({ listID: props.itemList.id, itemId: id });
       return actualItemList;
     });
   }
   function handlerResolved(id) {
-    const data = id;
-
     //save new data
     setItemList(prevItemList => {
       const index = prevItemList.findIndex(item => item.id === id);
@@ -66,7 +61,8 @@ function ItemList(props) {
         ...updatedItemList[index],
         resolved: !updatedItemList[index].resolved
       };
-      console.log(data, updatedItemList[index].name, "resolved:", updatedItemList[index].resolved);
+      // console.log(data, updatedItemList[index].name, "resolved:", updatedItemList[index].resolved);
+      Calls.updateItem({ listID: props.itemList.id, itemId: id, resolved: updatedItemList[index].resolved });
       return updatedItemList;
     });
   }
@@ -79,6 +75,7 @@ function ItemList(props) {
       ...prevItemList,
       { ...data, id: Utils.String.generateId(), resolved: false }
     ]);
+    Calls.createItem({ listID: props.itemList.id, name: data.name, amount: data.amount });
 
     setModalOpen(false);
   }
@@ -92,7 +89,8 @@ function ItemList(props) {
         ...updatedItemList[index],
         amount: updatedItemList[index].amount + 1
       };
-      console.log(id, updatedItemList[index].name, updatedItemList[index].amount)
+      //  console.log(id, updatedItemList[index].name, updatedItemList[index].amount)
+      Calls.updateItem({ listID: props.itemList.id, itemId: id, amount: updatedItemList[index].amount });
       return updatedItemList;
     });
   }
@@ -109,11 +107,11 @@ function ItemList(props) {
           amount: updatedItemList[index].amount - 1
         };
       }
-      console.log(id, updatedItemList[index].name, updatedItemList[index].amount)
+      //console.log(id, updatedItemList[index].name, updatedItemList[index].amount)
+      Calls.updateItem({ listID: props.itemList.id, itemId: id, amount: updatedItemList[index].amount });
       return updatedItemList;
     });
   }
-
   function filterItems(filter) {
     setItemList(ItemList => {
       const updatedItemList = [...props.itemList.itemList]
@@ -132,18 +130,23 @@ function ItemList(props) {
 
   return (
     <Uu5Elements.Block {...attrs}
-      header="List of items to buy" headerType="title"
+      header={<Lsi import={importLsi} path={["ListDetail", "ListBuy"]} />} headerType="title"
       actionList={
         !props.itemList.archived
           ? [{ icon: "mdi-plus", onClick: () => setModalOpen(true) }]
           : []}>
 
-      <Uu5Elements.Button {...attrsButton} size="l" icon="mdi-circle-outline" onClick={() => filterItems("All")}>All</Uu5Elements.Button>
-      <Uu5Elements.Button {...attrsButton} size="l" icon="mdi-check-circle-outline" onClick={() => filterItems("Resolved")}>Resolved</Uu5Elements.Button>
-      <Uu5Elements.Button {...attrsButton} size="l" icon="mdi-close-circle-outline" onClick={() => filterItems("Unresolved")}>Unresolved</Uu5Elements.Button>
+      <Uu5Elements.Button {...attrsButton} size="l" icon="mdi-circle-outline" onClick={() => filterItems("All")}>
+        <Lsi import={importLsi} path={["ListDetail", "All"]} />
+      </Uu5Elements.Button>
+      <Uu5Elements.Button {...attrsButton} size="l" icon="mdi-check-circle-outline" onClick={() => filterItems("Resolved")}>
+        <Lsi import={importLsi} path={["ListDetail", "Resolved"]} />
+      </Uu5Elements.Button>
+      <Uu5Elements.Button {...attrsButton} size="l" icon="mdi-close-circle-outline" onClick={() => filterItems("Unresolved")}>
+        <Lsi import={importLsi} path={["ListDetail", "Unresolved"]} />
+      </Uu5Elements.Button>
 
       <Uu5Elements.Grid >
-
 
         {ItemList.map((item) => (
           <Item key={item.id}  {...item} archived={props.itemList.archived}
@@ -154,12 +157,11 @@ function ItemList(props) {
           />
         ))}
 
-
       </Uu5Elements.Grid>
 
       <Uu5Forms.Form.Provider key={modalOpen} onSubmit={handleSubmit}>
 
-        <Uu5Elements.Modal open={modalOpen} onClose={() => setModalOpen(false)} header="Create item"
+        <Uu5Elements.Modal open={modalOpen} onClose={() => setModalOpen(false)} header={<Lsi import={importLsi} path={["ListDetail", "AddItem"]} />}
           footer={
             <div>
               <Uu5Forms.CancelButton className={Config.Css.css({ margin: 5 })} onClick={() => setModalOpen(false)} />
@@ -170,8 +172,8 @@ function ItemList(props) {
         >
 
           <Uu5Forms.Form.View gridLayout={{ xs: "name, amount", s: "name amount" }}>
-            <Uu5Forms.FormText label="Name" name="name" required />
-            <Uu5Forms.FormNumber label="Amount" name="amount" initialValue={1} required min={1} />
+            <Uu5Forms.FormText label={<Lsi import={importLsi} path={["ListDetail", "Name"]} />} name="name" required />
+            <Uu5Forms.FormNumber label={<Lsi import={importLsi} path={["ListDetail", "Amount"]} />} name="amount" initialValue={1} required min={1} />
           </Uu5Forms.Form.View>
 
         </Uu5Elements.Modal>

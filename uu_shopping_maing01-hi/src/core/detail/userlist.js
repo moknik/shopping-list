@@ -1,8 +1,9 @@
-import { Utils, useState } from "uu5g05";
+import { Utils, useState, useBackground, Lsi } from "uu5g05";
 import Uu5Elements from "uu5g05-elements";
 import Uu5Forms from "uu5g05-forms";
 import User from "./user.js";
 import Config from "../config/config.js";
+import importLsi from "../../lsi/import-lsi.js";
 
 function UserList(props) {
   const [UserList, setUserList] = useState(props.userList);
@@ -22,13 +23,14 @@ function UserList(props) {
     ? [{ icon: "mdi-plus", onClick: () => setModalOpen(true) }]
     : [];
 
+  var background = useBackground();
 
   const Css = {
     main: () =>
       Config.Css.css({
         display: "inline-block",
         borderRadius: "0 0 50px 50px",
-        backgroundColor: "#f5f5f5",
+        backgroundColor: background === "dark" ? "#9c9c9c" : "#f5f5f5",
         padding: "32px",
         margin: "auto",
         width: 300,
@@ -72,14 +74,11 @@ function UserList(props) {
 
   return (
     <Uu5Elements.Block {...attrs}
-      header="List of users"
+      header={<Lsi import={importLsi} path={["ListDetail", "UserList"]} />}
       headerType="title"
-      actionList={actionList}
-
-    >
+      actionList={actionList}   >
 
       <Uu5Elements.Grid >
-
         {actUserList.map((user) => (<User key={user.id}  {...user} owner={shoppingList.owner} authenticated={props.authenticated}
           onDelete={() => handlerDelete(user.id)} />))}
 
@@ -87,23 +86,21 @@ function UserList(props) {
 
       <Uu5Forms.Form.Provider key={modalOpen} onSubmit={handleSubmit}>
 
-        <Uu5Elements.Modal open={modalOpen} onClose={() => setModalOpen(false)} header="Add user"
+        <Uu5Elements.Modal open={modalOpen} onClose={() => setModalOpen(false)}
+          header={<Lsi import={importLsi} path={["ListDetail", "AddUser"]} />}
           footer={
             <div>
               <Uu5Forms.CancelButton className={Config.Css.css({ margin: 5 })} onclick={() => setModalOpen(false)} />
               <Uu5Forms.SubmitButton className={Config.Css.css({ margin: 5 })} />
             </div>
-
-          }
-        >
-
+          }>
           <Uu5Forms.FormSelect
             itemList={notUserList.map((user) => ({
               value: user.id,
               children: user.name,
               icon: "uugdsstencil-user-account-solid"
             }))}
-            label="User"
+            label={<Lsi import={importLsi} path={["ListDetail", "User"]} />}
             name="id"
             required
             multiple

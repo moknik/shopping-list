@@ -38,6 +38,11 @@ const Calls = {
     const commandUri = Calls.getCommandUri("shoppingList/delete");
     return Calls.call("post", commandUri);
   },
+  updateShoppingList(dtoIn) {
+    console.log("call update", dtoIn);
+    const commandUri = Calls.getCommandUri("shoppingList/update");
+    return Calls.call("post", commandUri);
+  },
   archiveShoppingList(dtoIn) {
     console.log("call archive", dtoIn);
     const commandUri = Calls.getCommandUri("shoppingList/archive");
@@ -48,6 +53,34 @@ const Calls = {
     const commandUri = Calls.getCommandUri("shoppingList/leave");
     return Calls.call("post", commandUri);
   },
+  createItem(dtoIn) {
+    console.log("call create item", dtoIn);
+    const commandUri = Calls.getCommandUri("shoppingList/createItem");
+    return Calls.call("post", commandUri);
+  }
+  ,
+  updateItem(dtoIn) {
+    console.log("call update item", dtoIn);
+    const commandUri = Calls.getCommandUri("shoppingList/updateItem");
+    return Calls.call("post", commandUri);
+  },
+  deleteItem(dtoIn) {
+    console.log("call delete item", dtoIn);
+    const commandUri = Calls.getCommandUri("shoppingList/deleteItem");
+    return Calls.call("post", commandUri);
+  },
+  resolveItem(dtoIn) {
+    console.log("call resolve item", dtoIn);
+    const commandUri = Calls.getCommandUri("shoppingList/resolveItem");
+    return Calls.call("post", commandUri);
+  }
+  ,
+  updateUserList(dtoIn) {
+    console.log("call update user list", dtoIn);
+    const commandUri = Calls.getCommandUri("shoppingList/updateUserList");
+    return Calls.call("post", commandUri);
+  },
+
 
   loadIdentityProfiles() {
     const commandUri = Calls.getCommandUri("sys/uuAppWorkspace/initUve");
