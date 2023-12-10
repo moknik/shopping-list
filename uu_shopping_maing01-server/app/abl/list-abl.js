@@ -26,7 +26,7 @@ class ListAbl {
       Errors.Create.InvalidDtoIn
     );
 
-    return {...dtoIn, uuAppErrorMap }; //DÚ 3 - jednotlivé end-pointy (uuCmd) budou ve výstupních datech vracet přijatá vstupní data a informace o chybách
+   //return {...dtoIn, uuAppErrorMap }; //DÚ 3 - jednotlivé end-pointy (uuCmd) budou ve výstupních datech vracet přijatá vstupní data a informace o chybách
 
     dtoIn.archive = false;
     dtoIn.user = uuIdentity;
@@ -49,12 +49,12 @@ class ListAbl {
       Errors.Create.InvalidDtoIn
     );
 
-    return {...dtoIn, uuAppErrorMap }; //DÚ 3 - jednotlivé end-pointy (uuCmd) budou ve výstupních datech vracet přijatá vstupní data a informace o chybách
+    //return {...dtoIn, uuAppErrorMap }; //DÚ 3 - jednotlivé end-pointy (uuCmd) budou ve výstupních datech vracet přijatá vstupní data a informace o chybách
 
     dtoIn.archive = false;
-    dtoIn.user = uuIdentity;
+    var user = uuIdentity;
     dtoIn.awid = awid;
-    const list = await this.dao.itemUpdate({ dtoIn });
+    const list = await this.dao.itemUpdate({ dtoIn, user });
     const dtoOut = { ...list, uuAppErrorMap };
     return dtoOut;
   }
@@ -71,7 +71,7 @@ class ListAbl {
       Errors.Create.InvalidDtoIn
     );
 
-    return {...dtoIn, uuAppErrorMap }; //DÚ 3 - jednotlivé end-pointy (uuCmd) budou ve výstupních datech vracet přijatá vstupní data a informace o chybách
+    //return {...dtoIn, uuAppErrorMap }; //DÚ 3 - jednotlivé end-pointy (uuCmd) budou ve výstupních datech vracet přijatá vstupní data a informace o chybách
 
     dtoIn.archive = false;
     dtoIn.user = uuIdentity;
@@ -101,7 +101,7 @@ class ListAbl {
     if (list == null) {
       throw new Errors.List.NoListFound();
     }
-    return {...dtoIn, uuAppErrorMap }; //DÚ 3 - jednotlivé end-pointy (uuCmd) budou ve výstupních datech vracet přijatá vstupní data a informace o chybách
+    //return {...dtoIn, uuAppErrorMap }; //DÚ 3 - jednotlivé end-pointy (uuCmd) budou ve výstupních datech vracet přijatá vstupní data a informace o chybách
 
     const dtoOut = { ...list, uuAppErrorMap };
     return dtoOut;
@@ -119,11 +119,11 @@ class ListAbl {
       Warnings.Create.UnsupportedKeys.code,
       Errors.Create.InvalidDtoIn
     );
-    return {...dtoIn, uuAppErrorMap }; //DÚ 3 - jednotlivé end-pointy (uuCmd) budou ve výstupních datech vracet přijatá vstupní data a informace o chybách
+    //return {...dtoIn, uuAppErrorMap }; //DÚ 3 - jednotlivé end-pointy (uuCmd) budou ve výstupních datech vracet přijatá vstupní data a informace o chybách
 
-    dtoIn.user = uuIdentity;
+    var user = uuIdentity;
     dtoIn.awid = awid;
-    const list = await this.dao.update({ dtoIn});
+    const list = await this.dao.update({ dtoIn, user});
     const dtoOut = { ...list, uuAppErrorMap };
     return dtoOut;
   }
@@ -139,7 +139,7 @@ class ListAbl {
       Warnings.Create.UnsupportedKeys.code,
       Errors.Create.InvalidDtoIn
     );
-    return {...dtoIn, uuAppErrorMap }; //DÚ 3 - jednotlivé end-pointy (uuCmd) budou ve výstupních datech vracet přijatá vstupní data a informace o chybách
+    //return {...dtoIn, uuAppErrorMap }; //DÚ 3 - jednotlivé end-pointy (uuCmd) budou ve výstupních datech vracet přijatá vstupní data a informace o chybách
 
     dtoIn.user = uuIdentity;
     dtoIn.awid = awid;
@@ -169,7 +169,7 @@ class ListAbl {
     if (list == null) {
       throw new Errors.Get.NoListFound();
     }
-    return {...dtoIn, uuAppErrorMap }; //DÚ 3 - jednotlivé end-pointy (uuCmd) budou ve výstupních datech vracet přijatá vstupní data a informace o chybách
+    //return {...dtoIn, uuAppErrorMap }; //DÚ 3 - jednotlivé end-pointy (uuCmd) budou ve výstupních datech vracet přijatá vstupní data a informace o chybách
 
     const dtoOut = { ...list, uuAppErrorMap };
     return dtoOut;
@@ -186,7 +186,7 @@ class ListAbl {
       Warnings.Create.UnsupportedKeys.code,
       Errors.Create.InvalidDtoIn
     );
-    return {...dtoIn, uuAppErrorMap }; //DÚ 3 - jednotlivé end-pointy (uuCmd) budou ve výstupních datech vracet přijatá vstupní data a informace o chybách
+    //return {...dtoIn, uuAppErrorMap }; //DÚ 3 - jednotlivé end-pointy (uuCmd) budou ve výstupních datech vracet přijatá vstupní data a informace o chybách
 
     dtoIn.archive = false;
     dtoIn.owner = uuIdentity;

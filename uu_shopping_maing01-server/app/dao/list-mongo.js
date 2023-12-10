@@ -18,7 +18,7 @@ class ListMongo extends UuObjectDao {
   }
 
   async update(dtoIn) {
-    let filter = { id: dtoIn.dtoIn.id, awid: dtoIn.dtoIn.awid, owner: dtoIn.dtoIn.user };
+    let filter = { id: dtoIn.dtoIn.id, awid: dtoIn.dtoIn.awid, owner: dtoIn.user };
     return await super.findOneAndUpdate(filter, dtoIn.dtoIn, "NONE");
   }
 
@@ -74,52 +74,60 @@ class ListMongo extends UuObjectDao {
 
   async itemDelete(dtoIn) {
     const user = dtoIn.dtoIn.user;
+    const listId = dtoIn.dtoIn.listId;
 
-    let filter = { id: dtoIn.dtoIn.listId, awid: dtoIn.dtoIn.awid, $or: [
-      { owner: user },
-      { members: { $in: [user] } }
-    ] };
-    const itemID = dtoIn.dtoIn.itemId;
-    return await super.findOneAndUpdate(filter, { $pull: { items: { id: itemID} } }, "NONE");
-  }
-
-
-
-  async itemUpdate(dtoIn) {
-    const user = dtoIn.dtoIn.user;
+    const itemId = typeof dtoIn.dtoIn.itemId === 'string' ? new ObjectId(dtoIn.dtoIn.itemId) : dtoIn.dtoIn.itemId;
 
     let filter = {
-      id: dtoIn.dtoIn.listId,
+      id: listId,
       awid: dtoIn.dtoIn.awid,
       $or: [
         { owner: user },
         { members: { $in: [user] } }
       ]
     };
-
-    var itemID = typeof dtoIn.dtoIn.itemId === 'string' ? new ObjectId(dtoIn.dtoIn.itemId) : dtoIn.dtoIn.itemId;
-
-    const itemName = dtoIn.dtoIn.name;
-    const itemQuantity = dtoIn.dtoIn.quantity;
-    const resolved = dtoIn.dtoIn.resolved;
-
-    const update = {
-      $set: {
-        "items.$[elem].name": itemName,
-        "items.$[elem].quantity": itemQuantity,
-        "items.$[elem].resolved": resolved
-      }
-    };
-
-    const options = {
-      arrayFilters: [{ "elem.id": itemID }]
-    };
-
-    let doc = await super.findOne(filter);
-    console.log(doc);
-
-    return await super.findOneAndUpdate(filter, update, options);
+    return await super.findOneAndUpdate(
+      filter,
+      { $pull: { items: { id: itemId } } },
+      "NONE"
+    );
   }
+
+  async itemUpdate(dtoIn) {
+    const user = dtoIn.user;
+    const listId = dtoIn.dtoIn.listId;
+    const itemId = typeof dtoIn.dtoIn.itemId === 'string' ? new ObjectId(dtoIn.dtoIn.itemId) : dtoIn.dtoIn.itemId;
+
+    let updateData = {};
+    if (dtoIn.dtoIn.name) {
+      updateData['items.$.name'] = dtoIn.dtoIn.name;
+    }
+    if (dtoIn.dtoIn.quantity) {
+      updateData['items.$.quantity'] = dtoIn.dtoIn.quantity;
+    }
+    if (dtoIn.dtoIn.resolved !== undefined) {
+      updateData['items.$.resolved'] = dtoIn.dtoIn.resolved;
+    }
+
+    let filter = {
+      id: listId,
+      awid: dtoIn.dtoIn.awid,
+      $or: [
+        { owner: user },
+        { members: { $in: [user] } }
+      ],
+      'items.id': itemId
+    };
+
+    return await super.findOneAndUpdate(
+      filter,
+      { $set: updateData },
+      "NONE"
+    );
+  }
+
+
+
 
 
 
