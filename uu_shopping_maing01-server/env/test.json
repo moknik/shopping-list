@@ -9,17 +9,20 @@
     "AsidLicenseOwner": {
       "accessCode1": "Y5&Cv$yt3rJx26u2P2&r03u9St@2!d5V",
       "accessCode2": "6YNV1u5G290-J!%83708141q51_!763n",
-      "uuIdentity": "3039-912-8064-0000"
+      "uuIdentity": "3039-912-8064-0000",
+      "profileList": ["AsidLicenseOwner"]
     },
     "AsidAuthorities": {
       "accessCode1": "Y5&Cv$yt3rJx26u2P2&r03u9St@2!d5V",
       "accessCode2": "6YNV1u5G290-J!%83708141q51_!763n",
-      "uuIdentity": "3039-912-8064-0000"
+      "uuIdentity": "3039-912-8064-0000",
+      "profileList": ["AsidAuthorities"]
     },
     "AwidLicenseOwner": {
       "accessCode1": "Y5&Cv$yt3rJx26u2P2&r03u9St@2!d5V",
       "accessCode2": "6YNV1u5G290-J!%83708141q51_!763n",
-      "uuIdentity": "3039-912-8064-0000"
+      "uuIdentity": "3039-912-8064-0000",
+      "profileList": ["AwidLicenseOwner"]
     },
     "Authorities": {
       "accessCode1": "Y5&Cv$yt3rJx26u2P2&r03u9St@2!d5V",

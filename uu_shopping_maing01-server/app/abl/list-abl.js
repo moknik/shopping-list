@@ -22,8 +22,8 @@ class ListAbl {
       dtoIn,
       validationResult,
       uuAppErrorMap,
-      Warnings.Create.UnsupportedKeys.code,
-      Errors.Create.InvalidDtoIn
+      Warnings.Delete.UnsupportedKeys.code,
+      Errors.Delete.InvalidDtoIn
     );
 
    //return {...dtoIn, uuAppErrorMap }; //DÚ 3 - jednotlivé end-pointy (uuCmd) budou ve výstupních datech vracet přijatá vstupní data a informace o chybách
@@ -45,8 +45,8 @@ class ListAbl {
       dtoIn,
       validationResult,
       uuAppErrorMap,
-      Warnings.Create.UnsupportedKeys.code,
-      Errors.Create.InvalidDtoIn
+      Warnings.Update.UnsupportedKeys.code,
+      Errors.Update.InvalidDtoIn
     );
 
     //return {...dtoIn, uuAppErrorMap }; //DÚ 3 - jednotlivé end-pointy (uuCmd) budou ve výstupních datech vracet přijatá vstupní data a informace o chybách
@@ -90,8 +90,8 @@ class ListAbl {
       dtoIn,
       validationResult,
       uuAppErrorMap,
-      Warnings.Create.UnsupportedKeys.code,
-      Errors.Create.InvalidDtoIn
+      Warnings.List.UnsupportedKeys.code,
+      Errors.List.InvalidDtoIn
     );
 
     dtoIn.user = uuIdentity;
@@ -116,14 +116,19 @@ class ListAbl {
       dtoIn,
       validationResult,
       uuAppErrorMap,
-      Warnings.Create.UnsupportedKeys.code,
-      Errors.Create.InvalidDtoIn
+      Warnings.Update.UnsupportedKeys.code,
+      Errors.Update.InvalidDtoIn
     );
     //return {...dtoIn, uuAppErrorMap }; //DÚ 3 - jednotlivé end-pointy (uuCmd) budou ve výstupních datech vracet přijatá vstupní data a informace o chybách
 
     var user = uuIdentity;
     dtoIn.awid = awid;
+    const test = await this.dao.get({ dtoIn });
+    if (test == null) {
+      throw new Errors.Update.NoListFound();
+    }
     const list = await this.dao.update({ dtoIn, user});
+
     const dtoOut = { ...list, uuAppErrorMap };
     return dtoOut;
   }
@@ -136,14 +141,15 @@ class ListAbl {
       dtoIn,
       validationResult,
       uuAppErrorMap,
-      Warnings.Create.UnsupportedKeys.code,
-      Errors.Create.InvalidDtoIn
+      Warnings.Delete.UnsupportedKeys.code,
+      Errors.Delete.InvalidDtoIn
     );
     //return {...dtoIn, uuAppErrorMap }; //DÚ 3 - jednotlivé end-pointy (uuCmd) budou ve výstupních datech vracet přijatá vstupní data a informace o chybách
 
     dtoIn.user = uuIdentity;
     dtoIn.awid = awid;
     const list = await this.dao.delete({ dtoIn});
+
     const dtoOut = { ...list, uuAppErrorMap };
     return dtoOut;
 
@@ -158,8 +164,8 @@ class ListAbl {
       dtoIn,
       validationResult,
       uuAppErrorMap,
-      Warnings.Create.UnsupportedKeys.code,
-      Errors.Create.InvalidDtoIn
+      Warnings.Get.UnsupportedKeys.code,
+      Errors.Get.InvalidDtoIn
     );
 
     dtoIn.user = uuIdentity;

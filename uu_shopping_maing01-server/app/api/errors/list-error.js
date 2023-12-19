@@ -4,7 +4,7 @@ const ShoppingMainUseCaseError = require("./shopping-main-use-case-error.js");
 const LIST_ERROR_PREFIX = `${ShoppingMainUseCaseError.ERROR_PREFIX}list/`;
 
 const Create = {
-  UC_CODE: `${LIST_ERROR_PREFIX}list/create/`,
+  UC_CODE: `${LIST_ERROR_PREFIX}create/`,
   InvalidDtoIn: class extends ShoppingMainUseCaseError {
     constructor() {
       super(...arguments);
@@ -16,7 +16,7 @@ const Create = {
 };
 
 const Get = {
-  UC_CODE: `${LIST_ERROR_PREFIX}list/get/`,
+  UC_CODE: `${LIST_ERROR_PREFIX}get/`,
   InvalidDtoIn: class extends ShoppingMainUseCaseError {
     constructor() {
       super(...arguments);
@@ -27,8 +27,9 @@ const Get = {
   NoListFound: class extends ShoppingMainUseCaseError {
     constructor() {
       super(...arguments);
-      this.code = `${Get.UC_CODE}noListFound`;
+      this.code = `${Get.UC_CODE}noListFound/`;
       this.message = "List does not exist or you do not have permission.";
+      this.status = 404;
     }
   },
 
@@ -36,7 +37,7 @@ const Get = {
 };
 
 const Delete = {
-  UC_CODE: `${LIST_ERROR_PREFIX}list/delete/`,
+  UC_CODE: `${LIST_ERROR_PREFIX}delete/`,
   InvalidDtoIn: class extends ShoppingMainUseCaseError {
     constructor() {
       super(...arguments);
@@ -48,7 +49,7 @@ const Delete = {
 };
 
 const Update = {
-  UC_CODE: `${LIST_ERROR_PREFIX}list/update/`,
+  UC_CODE: `${LIST_ERROR_PREFIX}update/`,
   InvalidDtoIn: class extends ShoppingMainUseCaseError {
     constructor() {
       super(...arguments);
@@ -56,12 +57,20 @@ const Update = {
       this.message = "DtoIn is not valid.";
     }
   },
+  NoListFound: class extends ShoppingMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Update.UC_CODE}noListFound/`;
+      this.message = "List does not exist or you do not have permission.";
+      this.status = 404;
+    }
+  },
 
 };
 
 
 const List = {
-  UC_CODE: `${LIST_ERROR_PREFIX}list/list/`,
+  UC_CODE: `${LIST_ERROR_PREFIX}list/`,
   InvalidDtoIn: class extends ShoppingMainUseCaseError {
     constructor() {
       super(...arguments);
